@@ -11,16 +11,17 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#fff'
     },
-    image:{
-        marginLeft: 17,
-        marginTop: 30,
-        width: valor * 1.64444,
-        height: valor,
-    },
     terms:{        
         backgroundColor: '#FFCB05',
         width: width/1.3,
-        height: width*2.3
+        height: Dimensions.get('screen').height/1.3,
+        paddingHorizontal:valor/4,
+        borderBottomLeftRadius:width/50,
+        borderBottomRightRadius:width/50,
+        borderTopRightRadius:width/50,
+    },
+    texto:{
+        justifyContent:'center'
     }
 })
 
