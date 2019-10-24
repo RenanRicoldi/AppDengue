@@ -3,7 +3,8 @@ export const colors={
     def_gray:'#aaaaaa',
     def_red:'#e4003e',
     def_green:'#35d830',
-    def_black:'#3d3d3d'
+    def_black:'#3d3d3d',
+    def_white:'#ffff'
 }
 
 export const icon1X={
@@ -73,4 +74,10 @@ export const icon3X={
     def_icon18:require('../assets/icons/3X/icon18.png'),
     def_icon19:require('../assets/icons/3X/icon19.png'),
     def_iconDengue:require('../assets/icons/3X/iconDengue.png'),
+}
+
+export const images={
+    def_logo:require('../assets/images/Logo/recursosdengue.png'),
+    def_logo2x:require('../assets/images/Logo/recursosdengue@2x.png'),
+    def_logo3x:require('../assets/images/Logo/recursosdengue@3x.png')
 }

@@ -3,7 +3,7 @@
  */
 
 import {AppRegistry} from 'react-native';
-import Privacy from './src/pages/PrivacyPolicies/PrivacyPolicies';
+import Main from './src/pages/Main/Main'
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => Privacy);
+AppRegistry.registerComponent(appName, () => Main);
