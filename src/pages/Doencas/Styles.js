@@ -1,18 +1,21 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
-const valor = Dimensions.get('screen').width*1.3
+const width = Dimensions.get('screen').width
 
 const Styles = StyleSheet.create({
     background:{
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FFCB05'
+        //justifyContent: 'center',
+        //backgroundColor: '#FFCB05'
     },
     image:{
-        width: valor * 0.74380,
-        height: valor,
-    }
+        width: width/5,
+        height:  width/5*1.648484,
+    },
+    scroll:{
+        alignSelf:'flex-start'
+    },
 })
 
 export default Styles
