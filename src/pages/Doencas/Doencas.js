@@ -1,17 +1,26 @@
 import React from 'react'
-import { View, Image, StatusBar } from 'react-native'
-
+import { View, Image, StatusBar,ScrollView } from 'react-native'
+import DoencasContainer from '../../components/DoencaContainer/DoencaContainer'
 import Styles from './Styles'
+import {icon1X} from '../../utils/consts'
 
 class Doencas extends React.Component {
     render(){
         return(
-            <>
-                <StatusBar barStyle='dark-content' backgroundColor='#FFCB05'/>
+            
+                
                 <View style={ Styles.background }>
-                    <Image source={ require('../../../assets/Inicio/logodengue.png') }  style = { Styles.image }/>
+                    <StatusBar barStyle='dark-content' backgroundColor='#FFCB05'/>
+                    <Image source={ icon1X.def_iconDengue }  style = { Styles.image }/>
+                    <ScrollView style={Styles.scroll}>
+                        <DoencasContainer Doenca={'Doença 1'} description={'eita nem sei... mas não importa é só um texte'} 
+                            sintomas={'Dor de cabeça'}/>
+                        <DoencasContainer Doenca={'Programar um app'} description={'ato de desenvolver um software para mobiles'} 
+                            sintomas={'GAL'}/>
+                    </ScrollView>
+                    
                 </View>
-            </>
+            
         )
     }
 }
