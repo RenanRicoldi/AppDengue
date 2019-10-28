@@ -13,7 +13,8 @@ import Checklist from '../Checklist/Checklist'
 import Denuncia from '../Denuncia/Denuncia'
 import Mapa from '../Mapa/Mapa'
 import Historico from '../Historico/Historico'
- import Sobre from '../Sobre/Sobre'
+import Sobre from '../Sobre/Sobre'
+import Login from '../Login/Login'
 
 
 import Styles from './Styles'
@@ -35,7 +36,7 @@ class Privacy extends React.Component{
                             <Text>Politica de Privacidade</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={ () => this.props.navigation.navigate('Início') } style={Styles.button}>
+                    <TouchableOpacity onPress={ () => this.props.navigation.navigate('Login') } style={Styles.button}>
                             <Text style={Styles.buttonText}>Concordo</Text>
                     </TouchableOpacity>
                     
@@ -46,6 +47,9 @@ class Privacy extends React.Component{
 }
 
 const stackNavigator = createStackNavigator({
+    Login:{
+        screen: Login
+    },
     Início: {
         screen: Main
     },
