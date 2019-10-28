@@ -12,6 +12,8 @@ import { colors } from '../../utils/consts'
 /* title (string) = define o titulo                                                   */
 /* image (require(src)) = define a imagem do item                                     */
 /* isOk (function) = funcao que retorna um objeto sendo {itemID, boolean}             */
+/* border ({borderColor:color}) = define a cor da borda, dependendo da necessiade de  */
+/*                              avisar o usuario se o item ja foi preenchido ou nao   */
 
 function checkButton(props){
 
@@ -39,6 +41,7 @@ function QuestionnaireItem(props) {
 
     const itemID = props.id
 
+    const [isFirstRun, changeRunStatus] = useState(true)
     const [isSelected, changeStatus] = useState(false)
     const [isChecked, changeCheck] = useState({
         gray:false,
@@ -55,6 +58,8 @@ function QuestionnaireItem(props) {
             green:false,
             yellow:false
         })
+
+        changeRunStatus(false)
     }
 
     const callbackRed = () =>{
@@ -64,6 +69,8 @@ function QuestionnaireItem(props) {
             green:false,
             yellow:false
         })
+
+        changeRunStatus(false)
     }
 
     const callbackGreen = () =>{
@@ -73,6 +80,8 @@ function QuestionnaireItem(props) {
             green:!isChecked.green,
             yellow:false
         })
+
+        changeRunStatus(false)
     }
 
     const callbackYellow = () =>{
@@ -82,34 +91,50 @@ function QuestionnaireItem(props) {
             green:false,
             yellow:!isChecked.yellow
         })
+
+        changeRunStatus(false)
     }
  
-    const setStatus = () => {
+    const returnStatus = () => {
 
-        changeStatus(!isSelected)
-        
         let itemOK
 
         if(props.isOk != undefined){
 
-            if(isChecked.green || isChecked.yellow){
+            if(!isChecked.gray && !isChecked.red && !isChecked.green && !isChecked.yellow){
+                itemOK = undefined
+            }else if(isChecked.green || isChecked.yellow || isChecked.gray ){
                 itemOK = true
             }else{
                 itemOK = false
             }
 
-
-            props.isOk({itemID, itemOK})
+            props.isOk({id: itemID, item: itemOK})
 
         }
 
     }
 
+    const verifyAttention = () => {
+
+        if(props.border.borderColor == colors.def_yellow){
+            if(isFirstRun){
+                return props.border
+            }
+        }
+        
+        if(!isChecked.gray && !isChecked.red && !isChecked.green && !isChecked.yellow)
+            return {borderColor:colors.def_red}
+        else
+            return {borderColor:colors.def_yellow}
+    }
+
     if(isSelected){
+
         return(
-            <View style={ [Styles.mainContainer, {height: 370}] }>
-                <TouchableOpacity onPress={() => setStatus()} 
-                                  style={{height:98, flexDirection: 'row', alignItems:'center'}}>
+            <View style={ [Styles.mainContainer, verifyAttention()] }>
+                <TouchableOpacity onPress={() => changeStatus(!isSelected)} 
+                                  style={{flexDirection: 'row', alignItems:'center', padding:4}}>
                     <Image style={ Styles.photoWrapper } source={props.image}/>
                     <Text style={ Styles.title }>{props.title}</Text>
                 </TouchableOpacity>
@@ -119,12 +144,14 @@ function QuestionnaireItem(props) {
                 {checkButton({text:'correto', btnColor:colors.def_green, checked: isChecked.green, check:callbackGreen})}
                 {checkButton({text:'corrigido', btnColor:colors.def_yellow, checked: isChecked.yellow, check:callbackYellow})}
 
+                {returnStatus()}
+
             </View>
         )
     }else{
         return(
-            <TouchableOpacity onPress={() => setStatus()} style={ [Styles.mainContainer, {alignItems: 'center', flexDirection: 'row', height: 100}] }>
-                <View style={ Styles.photoWrapper }></View>
+            <TouchableOpacity onPress={() => changeStatus(!isSelected)} style={ [Styles.mainContainer, {alignItems: 'center', flexDirection: 'row', padding: 4}, verifyAttention()] }>
+                <Image style={ Styles.photoWrapper } source={props.image}/>
                 <Text style={ Styles.title }>{props.title}</Text>
             </TouchableOpacity>
         )        

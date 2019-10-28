@@ -6,31 +6,19 @@ const Styles = StyleSheet.create({
     /* Main container */
 
     mainContainer:{
-        borderColor: colors.def_yellow,
+       // borderColor: colors.def_yellow,
         borderWidth: 3,
         marginLeft: -3,
-        width: Dimensions.get('window').width / 1.5,
-        borderTopRightRadius: 30,
-        borderBottomRightRadius: 30,
-        marginVertical: 20
-    },
-
-    mainContainerOpened:{
-        borderColor: colors.def_yellow,
-        borderWidth: 3,
-        marginLeft: -3,
-        width: Dimensions.get('window').width / 1.5,
-        borderTopRightRadius: 30,
-        borderBottomRightRadius: 30,
-        marginVertical: 20
+        width: Dimensions.get('window').width / 1.45,
+        borderTopRightRadius: 34,
+        borderBottomRightRadius: 34,
+        marginBottom: 20
     },
 
     /* Icon and title */
 
     photoWrapper:{
         borderRadius: 100,
-        borderWidth: 3,
-        borderColor: colors.def_black,
         height: 80,
         width: 80,
         marginHorizontal: 5
@@ -48,7 +36,7 @@ const Styles = StyleSheet.create({
 
         flexDirection:'row',
         alignItems:'center',
-        marginHorizontal: 5,
+        marginLeft: 21,
         marginVertical: 5
 
     },
