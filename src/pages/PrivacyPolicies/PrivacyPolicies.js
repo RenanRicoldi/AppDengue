@@ -3,6 +3,16 @@ import { View, Text, Image, StatusBar,ScrollView,TouchableOpacity } from 'react-
 import MainButton from '../../components/MainButton/MainButton'
 import {icon1X,termo} from '../../utils/consts'
 
+import { createStackNavigator } from 'react-navigation-stack'
+import { createAppContainer } from 'react-navigation'
+
+
+import Main from '../Main/Main'
+import Doencas from '../Doencas/Doencas'
+import Checklist from '../Checklist/Checklist'
+// import Sobre from '../Sobre/Sobre'
+
+
 import Styles from './Styles'
 
 class Privacy extends React.Component{
@@ -22,7 +32,7 @@ class Privacy extends React.Component{
                             <Text>Politica de Privacidade</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={()=>null} style={Styles.button}>
+                    <TouchableOpacity onPress={ () => this.props.navigation.navigate('Início') } style={Styles.button}>
                             <Text style={Styles.buttonText}>Concordo</Text>
                     </TouchableOpacity>
                     
@@ -32,4 +42,28 @@ class Privacy extends React.Component{
     }
 }
 
-export default Privacy
+const stackNavigator = createStackNavigator({
+    Início: {
+        screen: Main
+    },
+    'Política de Privacidade': {
+        screen: Privacy
+    },
+    Doenças: {
+        screen: Doencas
+    },
+    // Sobre: {
+    //     screen: Sobre
+    // },
+    Checklist: {
+        screen: Checklist
+    },
+  },
+  {
+    initialRouteName: 'Política de Privacidade',
+    headerMode: 'none'
+  })
+  
+  const App = createAppContainer(stackNavigator);
+
+export default App

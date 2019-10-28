@@ -26,7 +26,7 @@ class MainButton extends React.Component{
     render(){
         return(
             <View style={ Styles.background }>
-                <TouchableOpacity style={ [Styles.button,{backgroundColor:this.props.color,borderTopRightRadius: this.cornerTop(),borderBottomRightRadius: this.cornerBottom()}] }>
+                <TouchableOpacity style={ [Styles.button,{backgroundColor:this.props.color,borderTopRightRadius: this.cornerTop(),borderBottomRightRadius: this.cornerBottom()}] } onPress={() => this.props.changeView(this.props.viewName)}>
                     <Text>{this.props.title}</Text>
                 </TouchableOpacity>
             </View>
