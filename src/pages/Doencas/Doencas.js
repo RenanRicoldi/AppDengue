@@ -16,7 +16,7 @@ class Doencas extends React.Component {
                         <DoencasContainer Doenca={'Doença 1'} description={'eita nem sei... mas não importa é só um texte'} 
                             sintomas={'Dor de cabeça'}/>
                         <DoencasContainer Doenca={'Programar um app'} description={'ato de desenvolver um software para mobiles'} 
-                            sintomas={'GAL'}/>
+                            sintomas={'GAL - Guia Alternativo de Londrina B)'}/>
                     </ScrollView>
                     
                 </View>

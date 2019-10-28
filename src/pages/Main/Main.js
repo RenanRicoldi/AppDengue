@@ -6,18 +6,15 @@ import {
         StatusBar, 
         TouchableOpacity } from 'react-native'
 
-import { createStackNavigator } from 'react-navigation-stack'
-import { createAppContainer } from 'react-navigation'
-
 import { colors,icon1X } from '../../utils/consts'
 import MainButton from '../../components/MainButton/MainButton'
 import Styles from './Styles'
 
-import Privacy from '../PrivacyPolicies/PrivacyPolicies'
-import Doencas from '../Doencas/Doencas'
-import Sobre from '../Sobre/Sobre'
-
 class Main extends React.Component {
+    changeView = (viewName) => {
+        this.props.navigation.navigate(viewName)
+    }
+
     render(){
         return(
             <>
@@ -29,7 +26,7 @@ class Main extends React.Component {
                         <Image style={Styles.imagem} source={icon1X.def_iconDengue}/>
                     </View>
                     
-                    <MainButton color={colors.def_yellow} corner ={'Top'}title={'Checklist'}/>
+                    <MainButton color={colors.def_yellow} corner ={'Top'}title={'Checklist'} changeView={this.changeView} viewName='Checklist'/>
                     <MainButton color={colors.def_yellow} title={'Historico de Respostas'}/>
                     <MainButton color={colors.def_yellow} title={'Mapa'}/>
                     <MainButton color={colors.def_yellow} title={'Denuncia'}/>
