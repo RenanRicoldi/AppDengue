@@ -37,4 +37,25 @@ class Main extends React.Component {
     }
 }
 
-export default Main
+const stackNavigator = createStackNavigator({
+    Início: {
+        screen: Main
+    },
+    'Política de Privacidade': {
+        screen: Privacy
+    },
+    Doenças: {
+        screen: Doencas
+    },
+    Sobre: {
+        screen: Sobre
+    },
+  },
+  {
+    initialRouteName: 'Início',
+    headerMode: 'none'
+  })
+  
+const App = createAppContainer(stackNavigator);
+
+export default App

@@ -48,7 +48,7 @@ function Checklist(){
         try {
             var value = await AsyncStorage.getItem('tokenID');
          if (value !== null) {
-            console.log("from internal")
+            console.log(JSON.parse(value), "from internal")
             setToken(JSON.parse(value))
          }
         } catch (error) {
@@ -92,8 +92,9 @@ function Checklist(){
         axios({
             method:'post',
             url: 'http://hqaedesuel.herokuapp.com/api/register-questionnaire/',
-            headers: {'Content-Type':'application/json'},
-            auth: tokenID,
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': 'Token ' + tokenID},
             data: finalData
         }).then((response) => {
             console.log(response)
