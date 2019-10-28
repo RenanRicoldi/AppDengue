@@ -42,6 +42,10 @@ export const icon1X={
     def_iconMosquito:require('../assets/icons/1x/iconMosquito.png')
 }
 
+export const images = {
+    background:require('../assets/images/Background/background.png')
+}
+
 /*export const icon2X={
     def_icon1:require('../assets/icons/2X/icon1.png'),
     def_icon2:require('../assets/icons/2X/icon2.png'),

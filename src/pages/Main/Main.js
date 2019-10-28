@@ -60,6 +60,6 @@ const stackNavigator = createStackNavigator({
     headerMode: 'none'
   })
   
-  const App = createAppContainer(stackNavigator);
+const App = createAppContainer(stackNavigator);
 
 export default App
