@@ -5,10 +5,17 @@ import {
         Image,
         StatusBar, 
         TouchableOpacity } from 'react-native'
+
+import { createStackNavigator } from 'react-navigation-stack'
+import { createAppContainer } from 'react-navigation'
+
 import { colors,icon1X } from '../../utils/consts'
 import MainButton from '../../components/MainButton/MainButton'
-
 import Styles from './Styles'
+
+import Privacy from '../PrivacyPolicies/PrivacyPolicies'
+import Doencas from '../Doencas/Doencas'
+import Sobre from '../Sobre/Sobre'
 
 class Main extends React.Component {
     render(){
@@ -34,4 +41,25 @@ class Main extends React.Component {
     }
 }
 
-export default Main
+const stackNavigator = createStackNavigator({
+    Início: {
+        screen: Main
+    },
+    'Política de Privacidade': {
+        screen: Privacy
+    },
+    Doenças: {
+        screen: Doencas
+    },
+    Sobre: {
+        screen: Sobre
+    },
+  },
+  {
+    initialRouteName: 'Início',
+    headerMode: 'none'
+  })
+  
+  const App = createAppContainer(stackNavigator);
+
+export default App

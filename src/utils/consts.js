@@ -39,6 +39,7 @@ export const icon1X={
     def_icon18:require('../assets/icons/checklist/item18.png'),
     def_icon19:require('../assets/icons/checklist/item19.png'),
     def_iconDengue:require('../assets/icons/dengue/iconDengue.png'),
+    def_iconMosquito:require('../assets/icons/1x/iconMosquito.png')
 }
 
 /*export const icon2X={
