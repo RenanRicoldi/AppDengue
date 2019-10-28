@@ -10,7 +10,10 @@ import { createAppContainer } from 'react-navigation'
 import Main from '../Main/Main'
 import Doencas from '../Doencas/Doencas'
 import Checklist from '../Checklist/Checklist'
-// import Sobre from '../Sobre/Sobre'
+import Denuncia from '../Denuncia/Denuncia'
+import Mapa from '../Mapa/Mapa'
+import Historico from '../Historico/Historico'
+ import Sobre from '../Sobre/Sobre'
 
 
 import Styles from './Styles'
@@ -49,14 +52,23 @@ const stackNavigator = createStackNavigator({
     'Política de Privacidade': {
         screen: Privacy
     },
-    Doenças: {
+    Doencas: {
         screen: Doencas
     },
-    // Sobre: {
-    //     screen: Sobre
-    // },
+     Sobre: {
+         screen: Sobre
+     },
     Checklist: {
         screen: Checklist
+    },
+    Denuncia: {
+        screen: Denuncia
+    },
+    Mapa:{
+        screen: Mapa
+    },
+    Historico:{
+        screen:Historico
     },
   },
   {

@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from   'react-native'
-import {colors} from '../../utils/consts'
+import {colors, fonts} from '../../utils/consts'
 
 const Styles=StyleSheet.create({
     container:{
@@ -23,6 +23,7 @@ const Styles=StyleSheet.create({
         paddingLeft:Dimensions.get('screen').height/10,
         justifyContent:'center',
         alignItems:'flex-start',
+        
 
     },
     subtitle:{
@@ -33,7 +34,13 @@ const Styles=StyleSheet.create({
         paddingLeft:Dimensions.get('screen').height/15,
     },
     containerText:{
-        justifyContent:'center'
+        justifyContent:'center',
+        fontFamily: fonts.omnes_semibold,
+        fontSize: Dimensions.get('window').width / 23,
+    },
+    containerDescription:{
+        fontFamily: fonts.omnes_medium,
+        fontSize: Dimensions.get('window').width / 30
     }
 })
 

@@ -10,11 +10,11 @@ class DoencaContainer extends React.Component{
                 <View style={Styles.containerTitle}>
                     <Text style={Styles.containerText}>{this.props.Doenca}</Text>
                 </View>
-                <Text>{this.props.description}</Text>
+                <Text style={Styles.containerDescription} >{this.props.description}</Text>
                 <View style={Styles.subtitle}>
-                    <Text>Sintomas</Text>
+                    <Text style={Styles.containerText}>Sintomas</Text>
                 </View>
-                <Text style={Styles.containerText}>{this.props.sintomas}</Text>
+                <Text style={Styles.containerDescription}>{this.props.sintomas}</Text>
             </View>
         )
     }
