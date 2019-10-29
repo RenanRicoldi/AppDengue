@@ -5,10 +5,12 @@ import {View,
         TextInput,
         ImageBackground,
         Alert,
-        StatusBar} from 'react-native'
+        StatusBar,
+        ActivityIndicator} from 'react-native'
 
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
+import Modal from 'react-native-modal'
 
 import { images, colors } from '../../utils/consts'
 
@@ -18,6 +20,14 @@ const def_pageStatus = {
     WELCOME: 0,
     LOGIN: 1,
     NEWUSER: 2
+}
+
+function loading(){
+    return(
+        <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0,0,0,0.4)'}}>
+            <ActivityIndicator color={colors.def_yellow} size='large'/>
+        </View>
+    )
 }
 
 function button(title, action){
@@ -41,7 +51,9 @@ async function storeKey(token){
 
 }
 
-function getToken(username, password, isLogin){
+function getToken(username, password, isLogin, navigate, changeLoading){
+
+    changeLoading(true)
 
     let URL = ''
 
@@ -74,7 +86,11 @@ function getToken(username, password, isLogin){
     axios.post(URL, data).then((response) =>{
         console.log(response)
         storeKey(response.data.key)
+        hangeLoading(false)
+        navigate('Início')
     }).catch((error) => {
+        Alert.alert('Não foi possível realizar seu login', 'Verifique os dados informados e tente novamente')
+        changeLoading(false)
         console.log(error)
     })
 
@@ -85,6 +101,7 @@ function getToken(username, password, isLogin){
 function registerScreen(register, changeScreen){
 
     let inputUsername, mainPassword, auxPassword = ''
+    let isModalVisible = false
 
     const changeUsername = (aux) => {
         inputUsername = aux
@@ -106,6 +123,7 @@ function registerScreen(register, changeScreen){
         }
 
         if(mainPassword === auxPassword){
+            isModalVisible = true
             register(inputUsername, mainPassword)
         }else{
             Alert.alert('As senhas não combinam', 'Verifique sua senha e tente novamente')
@@ -118,7 +136,12 @@ function registerScreen(register, changeScreen){
 
     return(
         <ImageBackground source={images.background} style={{height: '100%'}}>
+
         <StatusBar backgroundColor={colors.def_yellow} barStyle='dark-content' />
+        <Modal isVisible={isModalVisible}>
+            <ActivityIndicator color={colors.def_yellow} size='large'/>
+        </Modal>
+
         <View style={ Styles.mainContainer }>
 
             <View style={ Styles.mainArea }>
@@ -155,7 +178,7 @@ function registerScreen(register, changeScreen){
 
 /* Login screen */
 
-function loginScreen(login, changeScreen){
+function loginScreen(login, changeScreen, isLoading){
 
     let inputUsername, mainPassword = ''
 
@@ -184,7 +207,12 @@ function loginScreen(login, changeScreen){
 
     return(
         <ImageBackground source={images.background} style={{height: '100%'}}>
+
         <StatusBar backgroundColor={colors.def_yellow} barStyle='dark-content' />
+        <Modal isVisible={isLoading}>
+            <ActivityIndicator color={colors.def_yellow} size='large'/>
+        </Modal>
+
         <View style={ Styles.mainContainer }>
 
             <View style={ Styles.mainArea }>
@@ -212,7 +240,7 @@ function loginScreen(login, changeScreen){
 
 /* Welcome screen */
 
-function welcomeScreen(changeScreen){
+function welcomeScreen(changeScreen, navigate){
 
     const changeScreenCallback = (page) => {
         changeScreen(page)
@@ -224,7 +252,9 @@ function welcomeScreen(changeScreen){
         'Os dados dos seus questionários não ficarão salvos caso você escolha essa opção',
         [
           {text: 'Voltar'},
-          {text: 'Tenho certeza', onPress: () => console.log('OK Pressed')},
+          {text: 'Tenho certeza', onPress: () => {storeKey('noUser')
+                                                    navigate('Início')}
+            },
         ])
 
     }
@@ -258,27 +288,30 @@ function welcomeScreen(changeScreen){
 
 /* Main screen */
 
-function Login(){
+function Login(props){
 
     const [pageStatus, changePageStatus] = useState(def_pageStatus.WELCOME)
+    const [isLoading, changeLoading] = useState(false)
+
+    const navigate = props.navigation.navigate
 
     const aux_getToken = (username, password) => {
-        getToken(username, password, pageStatus)
+        getToken(username, password, pageStatus, navigate, changeLoading)
     }
 
     console.log(pageStatus)
     if(pageStatus == def_pageStatus.WELCOME){
         console.log("OOIOI")
         return(
-            welcomeScreen(changePageStatus)
+            welcomeScreen(changePageStatus, navigate)
         )
     }else if(pageStatus == def_pageStatus.LOGIN){
         return(
-            loginScreen(aux_getToken, changePageStatus)
+            loginScreen(aux_getToken, changePageStatus, isLoading)
         )
     }else if(pageStatus == def_pageStatus.NEWUSER){
         return(
-            registerScreen(aux_getToken, changePageStatus)
+            registerScreen(aux_getToken, changePageStatus, isLoading)
         )
     }
 
