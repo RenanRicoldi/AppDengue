@@ -1,6 +1,5 @@
 import React from 'react'
-import { 
-        Text,   
+import {Text,   
         View,
         Image,
         StatusBar, 
@@ -37,25 +36,4 @@ class Main extends React.Component {
     }
 }
 
-const stackNavigator = createStackNavigator({
-    Início: {
-        screen: Main
-    },
-    'Política de Privacidade': {
-        screen: Privacy
-    },
-    Doenças: {
-        screen: Doencas
-    },
-    Sobre: {
-        screen: Sobre
-    },
-  },
-  {
-    initialRouteName: 'Início',
-    headerMode: 'none'
-  })
-  
-const App = createAppContainer(stackNavigator);
-
-export default App
+export default Main
