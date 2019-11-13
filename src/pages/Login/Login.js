@@ -86,7 +86,7 @@ function getToken(username, password, isLogin, navigate, changeLoading){
     axios.post(URL, data).then((response) =>{
         console.log(response)
         storeKey(response.data.key)
-        hangeLoading(false)
+        changeLoading(false)
         navigate('Início')
     }).catch((error) => {
         Alert.alert('Não foi possível realizar seu login', 'Verifique os dados informados e tente novamente')
