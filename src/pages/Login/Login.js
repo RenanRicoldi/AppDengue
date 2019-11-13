@@ -59,7 +59,9 @@ function getToken(username, password, isLogin, navigate, changeLoading){
 
     let data = {}
 
-    if(isLogin == def_pageStatus.LOGIN){
+    console.log(isLogin, 'isLogin')
+
+    if(isLogin == def_pageStatus.LOGIN || isLogin == def_pageStatus.WELCOME){
 
         URL = 'http://hqaedesuel.herokuapp.com/auth/login/'
 
@@ -83,37 +85,34 @@ function getToken(username, password, isLogin, navigate, changeLoading){
         return
     }
 
+    console.log(URL)
+
     axios.post(URL, data).then((response) =>{
         console.log(response)
         storeKey(response.data.key)
-        hangeLoading(false)
+        changeLoading(false)
         navigate('Início')
     }).catch((error) => {
-        Alert.alert('Não foi possível realizar seu login', 'Verifique os dados informados e tente novamente')
+        if(isLogin){
+            Alert.alert('Não foi possível realizar seu login', 'Verifique os dados informados e tente novamente')
+        }else{
+            Alert.alert('Não foi possível realizar seu cadastro', 'Verifique os dados informados e tente novamente')
+        }
         changeLoading(false)
-        console.log(error)
+        console.log(error.response) 
     })
 
 }
 
 /* Registration screen */
 
-function registerScreen(register, changeScreen){
+function RegisterScreen(register, changeScreen){
 
-    let inputUsername, mainPassword, auxPassword = ''
+    const [inputUsername, changeUsername] = useState('')
+    const [mainPassword, changeMainPassword] = useState('')
+    const [auxPassword, changeAuxPassword] = useState('')
+    
     let isModalVisible = false
-
-    const changeUsername = (aux) => {
-        inputUsername = aux
-    }
-
-    const changeMainPassword = (aux) => {
-        mainPassword = aux
-    }
-
-    const changeAuxPassword = (aux) => {
-        auxPassword = aux
-    }
 
     const formVerification = () => {
 
@@ -178,17 +177,10 @@ function registerScreen(register, changeScreen){
 
 /* Login screen */
 
-function loginScreen(login, changeScreen, isLoading){
+function LoginScreen(login, changeScreen, isLoading){
 
-    let inputUsername, mainPassword = ''
-
-    const changeUsername = (aux) => {
-        inputUsername = aux
-    }
-
-    const changeMainPassword = (aux) => {
-        mainPassword = aux
-    }
+    const [inputUsername, changeUsername] = useState('')
+    const [mainPassword, changePassword] = useState('')
 
     const formVerification = () => {
 
@@ -229,7 +221,7 @@ function loginScreen(login, changeScreen, isLoading){
                         style = { Styles.textInput }
                         placeholder='senha'
                         secureTextEntry={true}
-                        onChangeText={text => changeMainPassword(text)}/>
+                        onChangeText={text => changePassword(text)}/>
                     {button('entrar', formVerification)}
                     {button('voltar', changeScreenCallback)}
             </View>
@@ -240,7 +232,7 @@ function loginScreen(login, changeScreen, isLoading){
 
 /* Welcome screen */
 
-function welcomeScreen(changeScreen, navigate){
+function WelcomeScreen(changeScreen, register){
 
     const changeScreenCallback = (page) => {
         changeScreen(page)
@@ -252,9 +244,7 @@ function welcomeScreen(changeScreen, navigate){
         'Os dados dos seus questionários não ficarão salvos caso você escolha essa opção',
         [
           {text: 'Voltar'},
-          {text: 'Tenho certeza', onPress: () => {storeKey('noUser')
-                                                    navigate('Início')}
-            },
+          {text: 'Tenho certeza', onPress: () => register('default', 'hqaedesuel')}
         ])
 
     }
@@ -303,15 +293,15 @@ function Login(props){
     if(pageStatus == def_pageStatus.WELCOME){
         console.log("OOIOI")
         return(
-            welcomeScreen(changePageStatus, navigate)
+            WelcomeScreen(changePageStatus, aux_getToken)
         )
     }else if(pageStatus == def_pageStatus.LOGIN){
         return(
-            loginScreen(aux_getToken, changePageStatus, isLoading)
+            LoginScreen(aux_getToken, changePageStatus, isLoading)
         )
     }else if(pageStatus == def_pageStatus.NEWUSER){
         return(
-            registerScreen(aux_getToken, changePageStatus, isLoading)
+            RegisterScreen(aux_getToken, changePageStatus, isLoading)
         )
     }
 

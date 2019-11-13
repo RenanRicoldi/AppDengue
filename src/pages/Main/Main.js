@@ -26,7 +26,6 @@ class Main extends React.Component {
                     </View>
                     <MainButton color={colors.def_yellow} corner ={'Top'}title={'Checklist'} changeView={this.changeView} viewName='Checklist'/>
                     <MainButton color={colors.def_yellow} title={'Historico de Respostas'} changeView={this.changeView} viewName='Historico'/>
-                    <MainButton color={colors.def_yellow} title={'Mapa'} changeView={this.changeView} viewName='Mapa'/>
                     <MainButton color={colors.def_yellow} title={'Denuncia'} changeView={this.changeView} viewName='Denuncia'/>
                     <MainButton color={colors.def_yellow} title={'Doenças'} changeView={this.changeView} viewName='Doencas'/>
                     <MainButton color={colors.def_yellow} corner ={'Bottom'} title={'Sobre o Projeto'} changeView={this.changeView} viewName='Sobre'/>
