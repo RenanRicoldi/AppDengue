@@ -5,7 +5,6 @@ import {icon1X,termo} from '../../utils/consts'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 
-
 import Main from '../Main/Main'
 import Doencas from '../Doencas/Doencas'
 import Checklist from '../Checklist/Checklist'
@@ -14,7 +13,6 @@ import Mapa from '../Mapa/Mapa'
 import Historico from '../Historico/Historico'
 import Sobre from '../Sobre/Sobre'
 import Login from '../Login/Login'
-
 
 import Styles from './Styles'
 
@@ -35,7 +33,7 @@ class Privacy extends React.Component{
                             <Text>Politica de Privacidade</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={ () => this.props.navigation.navigate('Login') } style={Styles.button}>
+                    <TouchableOpacity onPress={ () => this.props.navigation.navigate('Login', this.props.navigation.navigate) } style={Styles.button}>
                             <Text style={Styles.buttonText}>Concordo</Text>
                     </TouchableOpacity>
                     
@@ -73,6 +71,9 @@ const stackNavigator = createStackNavigator({
     Historico:{
         screen:Historico
     },
+    Login:{
+        screen: Login
+    }
   },
   {
     initialRouteName: 'Política de Privacidade',

@@ -13,10 +13,10 @@ class Doencas extends React.Component {
                     <StatusBar barStyle='dark-content' backgroundColor='#FFCB05'/>
                     <Image source={ icon1X.def_iconDengue }  style = { Styles.image }/>
                     <ScrollView style={Styles.scroll}>
-                        <DoencasContainer Doenca={'Doença 1'} description={'eita nem sei... mas não importa é só um texte'} 
+                        <DoencasContainer Doenca={'Doença 1'} description={'Lorem ipsum'} 
                             sintomas={'Dor de cabeça'}/>
-                        <DoencasContainer Doenca={'Programar um app'} description={'ato de desenvolver um software para mobiles'} 
-                            sintomas={'GAL - Guia Alternativo de Londrina B)'}/>
+                        <DoencasContainer Doenca={'Doença 2'} description={'Lorem Ipsum'} 
+                            sintomas={'Diarréia'}/>
                     </ScrollView>
                     
                 </View>

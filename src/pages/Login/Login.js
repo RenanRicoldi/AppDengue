@@ -5,10 +5,12 @@ import {View,
         TextInput,
         ImageBackground,
         Alert,
-        StatusBar} from 'react-native'
+        StatusBar,
+        ActivityIndicator} from 'react-native'
 
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
+import Modal from 'react-native-modal'
 
 import { images, colors } from '../../utils/consts'
 
@@ -18,6 +20,14 @@ const def_pageStatus = {
     WELCOME: 0,
     LOGIN: 1,
     NEWUSER: 2
+}
+
+function loading(){
+    return(
+        <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0,0,0,0.4)'}}>
+            <ActivityIndicator color={colors.def_yellow} size='large'/>
+        </View>
+    )
 }
 
 function button(title, action){
@@ -41,13 +51,17 @@ async function storeKey(token){
 
 }
 
-function getToken(username, password, isLogin){
+function getToken(username, password, isLogin, navigate, changeLoading){
+
+    changeLoading(true)
 
     let URL = ''
 
     let data = {}
 
-    if(isLogin == def_pageStatus.LOGIN){
+    console.log(isLogin, 'isLogin')
+
+    if(isLogin == def_pageStatus.LOGIN || isLogin == def_pageStatus.WELCOME){
 
         URL = 'http://hqaedesuel.herokuapp.com/auth/login/'
 
@@ -71,32 +85,34 @@ function getToken(username, password, isLogin){
         return
     }
 
+    console.log(URL)
+
     axios.post(URL, data).then((response) =>{
         console.log(response)
         storeKey(response.data.key)
+        changeLoading(false)
+        navigate('Início')
     }).catch((error) => {
-        console.log(error)
+        if(isLogin){
+            Alert.alert('Não foi possível realizar seu login', 'Verifique os dados informados e tente novamente')
+        }else{
+            Alert.alert('Não foi possível realizar seu cadastro', 'Verifique os dados informados e tente novamente')
+        }
+        changeLoading(false)
+        console.log(error.response) 
     })
 
 }
 
 /* Registration screen */
 
-function registerScreen(register, changeScreen){
+function RegisterScreen(register, changeScreen){
 
-    let inputUsername, mainPassword, auxPassword = ''
-
-    const changeUsername = (aux) => {
-        inputUsername = aux
-    }
-
-    const changeMainPassword = (aux) => {
-        mainPassword = aux
-    }
-
-    const changeAuxPassword = (aux) => {
-        auxPassword = aux
-    }
+    const [inputUsername, changeUsername] = useState('')
+    const [mainPassword, changeMainPassword] = useState('')
+    const [auxPassword, changeAuxPassword] = useState('')
+    
+    let isModalVisible = false
 
     const formVerification = () => {
 
@@ -106,6 +122,7 @@ function registerScreen(register, changeScreen){
         }
 
         if(mainPassword === auxPassword){
+            isModalVisible = true
             register(inputUsername, mainPassword)
         }else{
             Alert.alert('As senhas não combinam', 'Verifique sua senha e tente novamente')
@@ -118,7 +135,12 @@ function registerScreen(register, changeScreen){
 
     return(
         <ImageBackground source={images.background} style={{height: '100%'}}>
+
         <StatusBar backgroundColor={colors.def_yellow} barStyle='dark-content' />
+        <Modal isVisible={isModalVisible}>
+            <ActivityIndicator color={colors.def_yellow} size='large'/>
+        </Modal>
+
         <View style={ Styles.mainContainer }>
 
             <View style={ Styles.mainArea }>
@@ -155,17 +177,10 @@ function registerScreen(register, changeScreen){
 
 /* Login screen */
 
-function loginScreen(login, changeScreen){
+function LoginScreen(login, changeScreen, isLoading){
 
-    let inputUsername, mainPassword = ''
-
-    const changeUsername = (aux) => {
-        inputUsername = aux
-    }
-
-    const changeMainPassword = (aux) => {
-        mainPassword = aux
-    }
+    const [inputUsername, changeUsername] = useState('')
+    const [mainPassword, changePassword] = useState('')
 
     const formVerification = () => {
 
@@ -184,7 +199,12 @@ function loginScreen(login, changeScreen){
 
     return(
         <ImageBackground source={images.background} style={{height: '100%'}}>
+
         <StatusBar backgroundColor={colors.def_yellow} barStyle='dark-content' />
+        <Modal isVisible={isLoading}>
+            <ActivityIndicator color={colors.def_yellow} size='large'/>
+        </Modal>
+
         <View style={ Styles.mainContainer }>
 
             <View style={ Styles.mainArea }>
@@ -201,7 +221,7 @@ function loginScreen(login, changeScreen){
                         style = { Styles.textInput }
                         placeholder='senha'
                         secureTextEntry={true}
-                        onChangeText={text => changeMainPassword(text)}/>
+                        onChangeText={text => changePassword(text)}/>
                     {button('entrar', formVerification)}
                     {button('voltar', changeScreenCallback)}
             </View>
@@ -212,7 +232,7 @@ function loginScreen(login, changeScreen){
 
 /* Welcome screen */
 
-function welcomeScreen(changeScreen){
+function WelcomeScreen(changeScreen, register){
 
     const changeScreenCallback = (page) => {
         changeScreen(page)
@@ -224,7 +244,7 @@ function welcomeScreen(changeScreen){
         'Os dados dos seus questionários não ficarão salvos caso você escolha essa opção',
         [
           {text: 'Voltar'},
-          {text: 'Tenho certeza', onPress: () => console.log('OK Pressed')},
+          {text: 'Tenho certeza', onPress: () => register('default', 'hqaedesuel')}
         ])
 
     }
@@ -258,27 +278,30 @@ function welcomeScreen(changeScreen){
 
 /* Main screen */
 
-function Login(){
+function Login(props){
 
     const [pageStatus, changePageStatus] = useState(def_pageStatus.WELCOME)
+    const [isLoading, changeLoading] = useState(false)
+
+    const navigate = props.navigation.navigate
 
     const aux_getToken = (username, password) => {
-        getToken(username, password, pageStatus)
+        getToken(username, password, pageStatus, navigate, changeLoading)
     }
 
     console.log(pageStatus)
     if(pageStatus == def_pageStatus.WELCOME){
         console.log("OOIOI")
         return(
-            welcomeScreen(changePageStatus)
+            WelcomeScreen(changePageStatus, aux_getToken)
         )
     }else if(pageStatus == def_pageStatus.LOGIN){
         return(
-            loginScreen(aux_getToken, changePageStatus)
+            LoginScreen(aux_getToken, changePageStatus, isLoading)
         )
     }else if(pageStatus == def_pageStatus.NEWUSER){
         return(
-            registerScreen(aux_getToken, changePageStatus)
+            RegisterScreen(aux_getToken, changePageStatus, isLoading)
         )
     }
 
