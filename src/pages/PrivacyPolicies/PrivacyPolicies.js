@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, Image, StatusBar,ScrollView,TouchableOpacity } from 'react-native'
-import MainButton from '../../components/MainButton/MainButton'
 import {icon1X,termo} from '../../utils/consts'
 
 import { createStackNavigator } from 'react-navigation-stack'
@@ -45,6 +44,9 @@ class Privacy extends React.Component{
 }
 
 const stackNavigator = createStackNavigator({
+    Login:{
+        screen: Login
+    },
     Início: {
         screen: Main
     },

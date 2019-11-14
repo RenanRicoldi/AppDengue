@@ -8,7 +8,7 @@ class DoencaContainer extends React.Component{
         return(
             <View style={Styles.container}>
                 <View style={Styles.containerTitle}>
-                    <Text style={Styles.containerText}>{this.props.Doenca}</Text>
+                    <Text style={Styles.titleText}>{this.props.Doenca}</Text>
                 </View>
                 <Text style={Styles.containerDescription} >{this.props.description}</Text>
                 <View style={Styles.subtitle}>

@@ -10,8 +10,8 @@ const Styles = StyleSheet.create({
         //backgroundColor: '#FFCB05'
     },
     image:{
-        width: width/5,
-        height:  width/5*1.648484,
+        width: width/3,
+        height:  width/3*1.648484,
     },
     scroll:{
         alignSelf:'flex-start'
