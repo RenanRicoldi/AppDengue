@@ -11,7 +11,7 @@ import Styles from './Styles'
 
 class Main extends React.Component {
     changeView = (viewName) => {
-        this.props.navigation.navigate(viewName)
+        this.props.navigation.navigate(viewName, this.props.navigation.navigate)
     }
 
     render(){
