@@ -33,7 +33,8 @@ const Styles = StyleSheet.create({
         borderTopRightRadius:width/50,
     },
     termText:{
-        justifyContent:'center'
+        justifyContent:'center',
+        fontSize: Dimensions.get('screen').fontScale*23
     },
     button:{
         backgroundColor:colors.def_black,

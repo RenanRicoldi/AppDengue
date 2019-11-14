@@ -1,40 +1,84 @@
-import {StyleSheet, Dimensions} from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+import { colors, fonts } from '../../utils/consts'
 
-const width = Dimensions.get('screen').width 
-const valor = width/6
+export const headerHeight = Dimensions.get('window').height / 3.8
+const width = Dimensions.get('screen').width
 
-const Styles=StyleSheet.create({
+const Styles = StyleSheet.create({
 
-    background:{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff'
+    headerWrapper:{
+        height: headerHeight,
+        width: Dimensions.get("window").width,
+        //backgroundColor: 'gray',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginBottom: 5
     },
 
-    header:{
-        flexDirection:'row',
-        marginTop:Dimensions.get('screen').height/-40,
-        position:'absolute'
+    logoWrapper:{
+        height: headerHeight,
+        width: Dimensions.get("window").width / 3,
+      //  backgroundColor: 'yellow'
+    },
+
+    title:{
+
+        fontFamily: fonts.rami_bold,
+        fontSize: Dimensions.get('window').fontScale * 45,
+
+        position: 'absolute',
+        top: headerHeight - (Dimensions.get('window').width / 10) - 16,
+        right: 10
+
+    },
+
+    rec1:{
+        width: Dimensions.get("window").width / 2.3,
+        height: headerHeight,
+        marginTop: -4,
+        borderColor: colors.def_yellow,
+        borderWidth: 2
+    },
+
+    rec2:{
+        position:'absolute',
+        right: Dimensions.get("window").width / 8,
+        bottom: headerHeight / 4.5,
+        width: Dimensions.get("window").width ,
+        height: headerHeight,
+        borderColor: colors.def_yellow,
+        borderWidth: 2,
+      //  backgroundColor: 'red'
+    },
+
+    sendBtn:{
+        backgroundColor: colors.def_black,
+        width: Dimensions.get("window").width / 2.5,
+        height: Dimensions.get("window").width / 8,
+        borderBottomLeftRadius: 20,
+        justifyContent: 'center',
+        marginBottom: 5
+
+    },
+
+    sendText:{
+        fontFamily: fonts.rami_bold,
+        fontSize: Dimensions.get('window').width / 12,
+        textAlign: 'center',
+        color: 'white',
+
+        marginTop: -2
     },
 
     terms:{        
         backgroundColor: '#FFCB05',
         width: width/1.3,
-        height: Dimensions.get('screen').height/1.3,
-        paddingHorizontal:valor/4,
-        paddingTop:Dimensions.get('screen').height/60,
-        borderBottomLeftRadius:width/50,
-        borderBottomRightRadius:width/50,
-        borderTopRightRadius:width/50,
-    },
-
-    imageHeader:{
-        width: width/10*1.648484,
-        height:  width/10,
-        
-    },
-
+        height: Dimensions.get('screen').height/1.65,
+        paddingLeft: width/18,
+        paddingRight: width/40, 
+        paddingTop:Dimensions.get('screen').height/10,
+        borderBottomRightRadius:width/10,
+    }
 
 })
 
