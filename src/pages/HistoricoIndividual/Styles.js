@@ -1,7 +1,9 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions, StatusBar } from 'react-native'
 import { colors, fonts } from '../../utils/consts'
 
 export const headerHeight = Dimensions.get('window').height / 3.8
+
+const margin = (StatusBar.currentHeight > 30)? StatusBar.currentHeight/2:0
 
 const dotRadius = Dimensions.get('window').width / 24 
 
@@ -63,7 +65,7 @@ const Styles = StyleSheet.create({
     },
 
     swiper:{
-        height: Dimensions.get('window').height - (headerHeight*1.1),
+        height: Dimensions.get('window').height - (headerHeight*1.1) + margin,
         paddingBottom: Dimensions.get('window').width / 15
     },
 

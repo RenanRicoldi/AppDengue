@@ -59,7 +59,7 @@ function getToken(username, password, isLogin, navigate, changeLoading, userStat
 
     if(isLogin == def_pageStatus.LOGIN || isLogin == def_pageStatus.WELCOME){
 
-        URL = 'http://hqaedesuel.herokuapp.com/auth/login/'
+        URL = 'https://hqaedesuel.herokuapp.com/auth/login/'
 
         data = {
             username: username,
@@ -68,7 +68,7 @@ function getToken(username, password, isLogin, navigate, changeLoading, userStat
 
     }else if(isLogin == def_pageStatus.NEWUSER){
 
-        URL = 'http://hqaedesuel.herokuapp.com/auth/registration/'
+        URL = 'https://hqaedesuel.herokuapp.com/auth/registration/'
 
         data = {
             username: username,

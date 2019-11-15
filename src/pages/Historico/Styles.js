@@ -1,7 +1,9 @@
-import {StyleSheet,Dimensions} from 'react-native'
+import {StyleSheet,Dimensions, StatusBar} from 'react-native'
 import {colors,fonts} from '../../utils/consts'
 
 export const headerHeight = Dimensions.get('window').height / 3.8
+
+const margin = (StatusBar.currentHeight < 30)? StatusBar.currentHeight:0
 
 const Styles=StyleSheet.create({
 
@@ -66,7 +68,7 @@ const Styles=StyleSheet.create({
     },
 
     scrollView:{
-        height: Dimensions.get("window").height - headerHeight
+        height: Dimensions.get("window").height - headerHeight - margin
     }
 
 })

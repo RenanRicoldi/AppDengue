@@ -50,7 +50,7 @@ function Historico(props){
 
         axios({
             method:'POST',
-            url: 'http://hqaedesuel.herokuapp.com/api/response-questionnaire/',
+            url: 'https://hqaedesuel.herokuapp.com/api/response-questionnaire/',
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': 'Token ' + tokenID},

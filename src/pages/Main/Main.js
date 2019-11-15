@@ -12,6 +12,7 @@ import { colors,icon1X, appSituation } from '../../utils/consts'
 import MainButton from '../../components/MainButton/MainButton'
 import backhandler from '../../utils/backhandler'
 import Styles from './Styles'
+import { NavigationActions } from 'react-navigation'
 
 async function setUserToLoggedOut(){
 
@@ -26,10 +27,11 @@ async function setUserToLoggedOut(){
 class Main extends React.Component {
 
     state = {
-        appSituation: undefined
+        appSituation: undefined,
+        screen: 0
     }
 
-    componentDidMount(){
+    componentDidMount(){ s
 
         setTimeout(()=>{
             this.retrieveToken()
@@ -75,6 +77,9 @@ class Main extends React.Component {
             this.props.navigation.navigate(viewName, this.props.navigation.navigate)
         }
 
+        this.setState({
+            state: 0
+        })
         
     }
 

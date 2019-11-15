@@ -101,7 +101,7 @@ function Checklist(props){
 
         axios({
             method:'post',
-            url: 'http://hqaedesuel.herokuapp.com/api/register-questionnaire/',
+            url: 'https://hqaedesuel.herokuapp.com/api/register-questionnaire/',
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': 'Token ' + tokenID},
