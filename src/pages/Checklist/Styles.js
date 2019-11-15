@@ -67,6 +67,20 @@ const Styles = StyleSheet.create({
         color: 'white',
 
         marginTop: -2
+    },
+
+    houseTypeSelector:{
+
+        width: '95%',
+        height: 50,
+        borderWidth: 4,
+        borderColor: colors.def_yellow,
+
+        alignSelf: 'center',
+        marginBottom: 10,
+
+        fontFamily: fonts.omnes_medium
+
     }
 
 })

@@ -1,3 +1,12 @@
+export const appSituation = {
+    LOADING_DATA: 1,
+    PRIVACYOK: 2,
+    WAITING_PRIVACY_AGREEMENT: 3,
+    LOGGED_IN: 4,
+    LOGGED_OUT: 5,
+    LOGGED_NO_USER: 6
+}
+
 export const colors={
     def_yellow:'#ffcb05',
     def_gray:'#aaaaaa',

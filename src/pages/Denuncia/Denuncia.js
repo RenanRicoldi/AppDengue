@@ -1,7 +1,13 @@
 import React from 'react'
-import {View,Text,Image, Dimensions} from 'react-native'
+import {View,
+        Text,
+        Image,
+        Dimensions,
+        Linking,
+        TouchableOpacity} from 'react-native'
 import Styles from './Styles'
 import { icon1X } from '../../utils/consts'
+import {  } from 'react-native-gesture-handler'
 
 class Denuncia extends React.Component{
 
@@ -25,7 +31,9 @@ class Denuncia extends React.Component{
                     </Text>
                     {' Londrina'}
                 </Text>
-                <Image source={require('../../assets/images/Denuncia/telefone.png')} style={{ marginTop: Dimensions.get('screen').height/10, height: Dimensions.get('screen').height/10, aspectRatio: 3.0247933884 }} />
+                <TouchableOpacity onPress={() => Linking.openURL('tel:${08004001893}')}>
+                    <Image source={require('../../assets/images/Denuncia/telefone.png')} style={{ marginTop: Dimensions.get('screen').height/10, height: Dimensions.get('screen').height/10, aspectRatio: 3.0247933884 }} />
+                </TouchableOpacity>
             </View>
         </View>
         )

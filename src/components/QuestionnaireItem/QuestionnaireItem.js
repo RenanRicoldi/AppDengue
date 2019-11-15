@@ -46,8 +46,7 @@ function QuestionnaireItem(props) {
     const [isChecked, changeCheck] = useState({
         gray:false,
         red:false,
-        green:false,
-        yellow:false
+        green:false
     })
     
 
@@ -55,8 +54,7 @@ function QuestionnaireItem(props) {
         changeCheck({
             gray:!isChecked.gray,
             red:false,
-            green:false,
-            yellow:false
+            green:false
         })
 
         changeRunStatus(false)
@@ -66,8 +64,7 @@ function QuestionnaireItem(props) {
         changeCheck({
             gray:false,
             red:!isChecked.red,
-            green:false,
-            yellow:false
+            green:false
         })
 
         changeRunStatus(false)
@@ -77,19 +74,7 @@ function QuestionnaireItem(props) {
         changeCheck({
             gray:false,
             red:false,
-            green:!isChecked.green,
-            yellow:false
-        })
-
-        changeRunStatus(false)
-    }
-
-    const callbackYellow = () =>{
-        changeCheck({
-            gray:false,
-            red:false,
-            green:false,
-            yellow:!isChecked.yellow
+            green:!isChecked.green
         })
 
         changeRunStatus(false)
@@ -101,12 +86,14 @@ function QuestionnaireItem(props) {
 
         if(props.isOk != undefined){
 
-            if(!isChecked.gray && !isChecked.red && !isChecked.green && !isChecked.yellow){
+            if(!isChecked.gray && !isChecked.red && !isChecked.green){
                 itemOK = undefined
-            }else if(isChecked.green || isChecked.yellow || isChecked.gray ){
-                itemOK = true
-            }else{
-                itemOK = false
+            }else if( isChecked.green ){
+                itemOK = 'correto'
+            }else if( isChecked.red ) {
+                itemOK = 'incorreto'
+            }else if( isChecked.gray ){
+                itemOK = 'nao_se_aplica'
             }
 
             props.isOk({id: itemID, item: itemOK})
@@ -123,7 +110,7 @@ function QuestionnaireItem(props) {
             }
         }
         
-        if(!isChecked.gray && !isChecked.red && !isChecked.green && !isChecked.yellow)
+        if(!isChecked.gray && !isChecked.red && !isChecked.green)
             return {borderColor:colors.def_red}
         else
             return {borderColor:colors.def_yellow}
@@ -142,7 +129,6 @@ function QuestionnaireItem(props) {
                 {checkButton({text:'não se aplica', btnColor:colors.def_gray, checked: isChecked.gray, check:callbackGray})}
                 {checkButton({text:'incorreto', btnColor:colors.def_red, checked: isChecked.red, check:callbackRed})}
                 {checkButton({text:'correto', btnColor:colors.def_green, checked: isChecked.green, check:callbackGreen})}
-                {checkButton({text:'corrigido', btnColor:colors.def_yellow, checked: isChecked.yellow, check:callbackYellow})}
 
                 {returnStatus()}
 

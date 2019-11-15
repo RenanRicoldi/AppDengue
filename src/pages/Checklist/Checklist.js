@@ -6,7 +6,8 @@ import {View,
         Dimensions,
         ScrollView,
         TouchableOpacity,
-        Alert} from 'react-native'
+        Alert,
+        Picker} from 'react-native'
 import Styles from './Styles'
 
 import axios from 'axios'
@@ -19,11 +20,12 @@ import checklistItems, {fillData} from '../../utils/checklistItems'
 
 let localObj = {latitude:undefined, longitude:undefined}
 
-function Checklist(){
+function Checklist(props){
 
-    const [returnedData, changeData] = useState(new Array(19))
+    const [returnedData, changeData] = useState(new Array(17))
     const [tokenID, setToken] = useState('')
     const [itemBorder, changeBorder] = useState({borderColor:colors.def_yellow})
+    const [houseType, changeHouseType] = useState('undefinedhouse')
 
     useEffect(() => {
 
@@ -66,10 +68,12 @@ function Checklist(){
 
     }
 
+    const navigate = props.navigation.navigate
+
     const sendData = () => {
 
         let i
-        for(i = 0; i< 19; i++){
+        for(i = 0; i< 17; i++){
 
             if(returnedData[i] == undefined){
                 Alert.alert('Você não preeencheu todos os itens!',
@@ -82,12 +86,18 @@ function Checklist(){
 
         if(localObj.latitude == undefined){
             Alert.alert('Não foi possível pegar sua localização',
-                        'Verifique se seu GPS está ativado, ou se você concedeu permisões de local, e tente novamente.')
+                        'Verifique se seu GPS está ativado, ou se você concedeu permissões de local, e tente novamente.')
+            return
+        }
+
+        if(houseType === 'undefinedhouse'){
+            Alert.alert('Você não selecionou o seu tipo de moradia',
+                        'Adicione e tente novamente.')
             return
         }
 
 
-        let finalData = fillData(returnedData, localObj.latitude, localObj.longitude)
+        let finalData = fillData(houseType, returnedData, localObj.latitude, localObj.longitude)
 
         axios({
             method:'post',
@@ -97,11 +107,16 @@ function Checklist(){
                 'Authorization': 'Token ' + tokenID},
             data: finalData
         }).then((response) => {
+
+            Alert.alert('Checklist enviada com sucesso!', '', 
+            [{text: 'ok', onPress: () => navigate('Início')}])
+            
             console.log(response)
 
         }).catch(error => {
-            console.log(error)
-            this.props.toogleModal
+            console.log(error, 'errorMessage')
+            Alert.alert('Não foi possível enviar sua checklist',
+                        'Verifique suas respostas e tente novamente')
         })
 
     }
@@ -120,6 +135,22 @@ function Checklist(){
             </View>
             
             <ScrollView contentContainerStyle={{alignItems: 'flex-end'}}>
+
+                <Picker
+                    selectedValue={houseType}
+                    style={ Styles.houseTypeSelector }
+                    onValueChange={(value) => changeHouseType(value)}>
+                    <Picker.Item label="Selecione o tipo de moradia" value="undefinedhouse" />
+                    <Picker.Item label="Casa de Alvenaria (Tijolos, telhas e etc)" value="casa_de_alvenaria" />
+                    <Picker.Item label="Cortiços" value="cortico" />
+                    <Picker.Item label="Edifício" value="edificio" />
+                    <Picker.Item label="Condomínio" value="condominio" />
+                    <Picker.Item label="Palafita" value="palafita" />
+                    <Picker.Item label="Oca" value="oca" />
+                    <Picker.Item label="Pau a pique" value="pau_a_pique" />
+                    <Picker.Item label="Barraco (papelões, latas, retos de materiais reciláveis e isopor)" value="barraco" />
+                    <Picker.Item label="Outro" value="outro" />
+                </Picker>
 
                 <FlatList 
                         style={{ width: Dimensions.get('window').width }}

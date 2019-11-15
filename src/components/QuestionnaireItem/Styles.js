@@ -6,7 +6,7 @@ const Styles = StyleSheet.create({
     /* Main container */
 
     mainContainer:{
-       // borderColor: colors.def_yellow,
+        // borderColor: colors.def_yellow,
         borderWidth: 3,
         marginLeft: -3,
         width: Dimensions.get('window').width / 1.45,

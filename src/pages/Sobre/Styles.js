@@ -28,7 +28,7 @@ const Styles = StyleSheet.create({
 
         position: 'absolute',
         top: headerHeight - (Dimensions.get('window').width / 10) - 60,
-        right: -50
+        right: 3
 
     },
 
@@ -78,6 +78,11 @@ const Styles = StyleSheet.create({
         paddingRight: width/25, 
         paddingTop:Dimensions.get('screen').height/50,
         borderBottomRightRadius:width/10,
+    },
+
+    text:{
+        fontFamily: fonts.omnes_medium,
+        fontSize: Dimensions.get('screen').fontScale*18
     }
 
 })

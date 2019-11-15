@@ -12,7 +12,8 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 import Modal from 'react-native-modal'
 
-import { images, colors } from '../../utils/consts'
+import backhandler from '../../utils/backhandler'
+import { images, colors, appSituation } from '../../utils/consts'
 
 import Styles from './Styles'
 
@@ -20,14 +21,6 @@ const def_pageStatus = {
     WELCOME: 0,
     LOGIN: 1,
     NEWUSER: 2
-}
-
-function loading(){
-    return(
-        <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0,0,0,0.4)'}}>
-            <ActivityIndicator color={colors.def_yellow} size='large'/>
-        </View>
-    )
 }
 
 function button(title, action){
@@ -41,17 +34,20 @@ function button(title, action){
     )
 }
 
-async function storeKey(token){
+async function storeKey(token, userStatus){
 
     try {
       await AsyncStorage.setItem('tokenID', JSON.stringify(token))
+      await AsyncStorage.setItem('appSituation', JSON.stringify(userStatus))
+
+      console.log(userStatus, 'salvando chave')
     } catch (error) {
       console.log(error)
     }
 
 }
 
-function getToken(username, password, isLogin, navigate, changeLoading){
+function getToken(username, password, isLogin, navigate, changeLoading, userStatus){
 
     changeLoading(true)
 
@@ -89,7 +85,7 @@ function getToken(username, password, isLogin, navigate, changeLoading){
 
     axios.post(URL, data).then((response) =>{
         console.log(response)
-        storeKey(response.data.key)
+        storeKey(response.data.key, userStatus)
         changeLoading(false)
         navigate('Início')
     }).catch((error) => {
@@ -106,7 +102,7 @@ function getToken(username, password, isLogin, navigate, changeLoading){
 
 /* Registration screen */
 
-function RegisterScreen(register, changeScreen){
+function RegisterScreen({register, changeScreen}){
 
     const [inputUsername, changeUsername] = useState('')
     const [mainPassword, changeMainPassword] = useState('')
@@ -123,7 +119,10 @@ function RegisterScreen(register, changeScreen){
 
         if(mainPassword === auxPassword){
             isModalVisible = true
-            register(inputUsername, mainPassword)
+            register(inputUsername, mainPassword, appSituation.LOGGED_IN)
+            changeUsername('')
+            changeMainPassword('')
+            changeAuxPassword('')
         }else{
             Alert.alert('As senhas não combinam', 'Verifique sua senha e tente novamente')
         }
@@ -152,17 +151,20 @@ function RegisterScreen(register, changeScreen){
                 <Text style={ Styles.subtitle }>Preencha os dados abaixo para realizar seu cadastro</Text>
                     <TextInput
                         style = { Styles.textInput }
+                        value = {inputUsername}
                         placeholder='usuário'
                         onChangeText={text => changeUsername(text)}/>
                     <TextInput
                         style = { Styles.textInput }
                         placeholder='senha'
+                        value = {mainPassword}
                         secureTextEntry={true}
                         onChangeText={text => changeMainPassword(text)}/>
                     <TextInput
                         style = { Styles.textInput }
                         placeholder='confirme a senha'
                         secureTextEntry={true}
+                        value={auxPassword}
                         onChangeText={text => changeAuxPassword(text)}/>
                     {button('cadastrar', formVerification)}
                     {button('voltar', changeScreenCallback)}
@@ -177,10 +179,10 @@ function RegisterScreen(register, changeScreen){
 
 /* Login screen */
 
-function LoginScreen(login, changeScreen, isLoading){
+function LoginScreen({login, changeScreen, isLoading}){
 
-    const [inputUsername, changeUsername] = useState('')
-    const [mainPassword, changePassword] = useState('')
+   const [inputUsername, changeUsername] = useState('')
+   const [mainPassword, changePassword] = useState('')
 
     const formVerification = () => {
 
@@ -188,7 +190,9 @@ function LoginScreen(login, changeScreen, isLoading){
             Alert.alert('Cadastro incompleto', 'Preencha todos os campos do cadastro e tente novamente')
             return
         }else{
-            login(inputUsername, mainPassword)
+            login(inputUsername, mainPassword, appSituation.LOGGED_IN)
+            changeUsername('')
+            changePassword('')
         }
 
     }
@@ -216,12 +220,14 @@ function LoginScreen(login, changeScreen, isLoading){
                     <TextInput
                         style = { Styles.textInput }
                         placeholder='usuário'
-                        onChangeText={text => changeUsername(text)}/>
+                        value={inputUsername}
+                       onChangeText={(text) => changeUsername(text)}/>
                     <TextInput
                         style = { Styles.textInput }
+                        value = {mainPassword}
                         placeholder='senha'
                         secureTextEntry={true}
-                        onChangeText={text => changePassword(text)}/>
+                        onChangeText={(text) => changePassword(text)}/>
                     {button('entrar', formVerification)}
                     {button('voltar', changeScreenCallback)}
             </View>
@@ -232,7 +238,7 @@ function LoginScreen(login, changeScreen, isLoading){
 
 /* Welcome screen */
 
-function WelcomeScreen(changeScreen, register){
+function WelcomeScreen({changeScreen, register}){
 
     const changeScreenCallback = (page) => {
         changeScreen(page)
@@ -240,11 +246,12 @@ function WelcomeScreen(changeScreen, register){
 
     const noUserWarning = () => {
 
+
         Alert.alert('Tem certeza que deseja entrar sem fazer cadastro?',
         'Os dados dos seus questionários não ficarão salvos caso você escolha essa opção',
         [
           {text: 'Voltar'},
-          {text: 'Tenho certeza', onPress: () => register('default', 'hqaedesuel')}
+          {text: 'Tenho certeza', onPress: () => register('default', 'hqaedesuel', appSituation.LOGGED_NO_USER)}
         ])
 
     }
@@ -285,23 +292,26 @@ function Login(props){
 
     const navigate = props.navigation.navigate
 
-    const aux_getToken = (username, password) => {
-        getToken(username, password, pageStatus, navigate, changeLoading)
+    backhandler(() => { changePageStatus(def_pageStatus.WELCOME) },
+                () => { props.navigation.navigate('Login')},
+                pageStatus)
+
+    const aux_getToken = (username, password, userStatus) => {
+        getToken(username, password, pageStatus, navigate, changeLoading, userStatus)
     }
 
     console.log(pageStatus)
-    if(pageStatus == def_pageStatus.WELCOME){
-        console.log("OOIOI")
+    if(pageStatus == def_pageStatus.LOGIN){
         return(
-            WelcomeScreen(changePageStatus, aux_getToken)
-        )
-    }else if(pageStatus == def_pageStatus.LOGIN){
-        return(
-            LoginScreen(aux_getToken, changePageStatus, isLoading)
+            <LoginScreen login={aux_getToken} changeScreen={changePageStatus} isLoading={isLoading}/>
         )
     }else if(pageStatus == def_pageStatus.NEWUSER){
         return(
-            RegisterScreen(aux_getToken, changePageStatus, isLoading)
+            <RegisterScreen register={aux_getToken} changeScreen={changePageStatus}/>
+        )
+    }else {
+        return(
+            <WelcomeScreen changeScreen={changePageStatus} register={aux_getToken}/>
         )
     }
 

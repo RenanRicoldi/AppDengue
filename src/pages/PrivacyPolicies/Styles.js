@@ -1,11 +1,19 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import {colors} from '../../utils/consts'
+import {colors, fonts} from '../../utils/consts'
 
 const width = Dimensions.get('screen').width
 
 const valor = width/6
 
 const Styles = StyleSheet.create({
+
+    waitingScreen:{
+        height: '100%',
+        backgroundColor: colors.def_yellow,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
     background:{
         flex: 1,
         alignItems: 'center',
@@ -17,6 +25,13 @@ const Styles = StyleSheet.create({
         marginTop:Dimensions.get('screen').height/-40,
         position:'absolute'
     },
+
+    title:{
+        fontFamily: fonts.rami_bold,
+        fontSize: Dimensions.get('screen').fontScale*30,
+        bottom: Dimensions.get('screen').width / 55
+    },
+
     imageHeader:{
         width: width/10*1.648484,
         height:  width/10,
@@ -33,6 +48,7 @@ const Styles = StyleSheet.create({
         borderTopRightRadius:width/50,
     },
     termText:{
+        fontFamily: fonts.omnes_medium,
         justifyContent:'center',
         fontSize: Dimensions.get('screen').fontScale*23
     },
@@ -46,6 +62,8 @@ const Styles = StyleSheet.create({
         marginTop:Dimensions.get('screen').height/-30,
     },
     buttonText:{
+        fontFamily: fonts.rami_bold,
+        fontSize: Dimensions.get('screen').fontScale*30,
         color:colors.def_white
     },
     scroll:{
