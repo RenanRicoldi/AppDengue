@@ -31,7 +31,7 @@ class Main extends React.Component {
         screen: 0
     }
 
-    componentDidMount(){ s
+    componentDidMount(){ 
 
         setTimeout(()=>{
             this.retrieveToken()

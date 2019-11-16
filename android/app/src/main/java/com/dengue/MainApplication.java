@@ -1,4 +1,4 @@
-package com.dengue;
+package com.ieeeuel.dengue;
 
 import android.app.Application;
 import android.content.Context;

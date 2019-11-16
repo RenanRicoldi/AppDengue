@@ -1,4 +1,4 @@
-package com.dengue;
+package com.ieeeuel.dengue;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
