@@ -82,7 +82,8 @@ const Styles = StyleSheet.create({
 
     text:{
         fontFamily: fonts.omnes_medium,
-        fontSize: Dimensions.get('screen').fontScale*18
+        fontSize: Dimensions.get('screen').fontScale*18,
+        paddingBottom: 50
     }
 
 })
