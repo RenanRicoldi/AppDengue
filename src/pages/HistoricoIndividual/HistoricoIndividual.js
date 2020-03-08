@@ -68,7 +68,7 @@ function HistoricoIndividual(props){
                         <View style={ Styles.rec1 }/>
                         <View style={ Styles.rec2 }/>
                         <Text style={ Styles.title }>Histórico de</Text>
-                        <Text style={ Styles.title }>{getMonth(navigation.getParam('month', 0))}</Text>
+                        <Text style={ Styles.title }>{getMonth(navigation.getParam('month', 0))}/{navigation.getParam('year', 0)}</Text>
                     </View>
                     <Image source={icon1X.def_iconDengue} style={ Styles.logoWrapper } resizeMode='contain'/>
                 </View>
@@ -89,7 +89,7 @@ function HistoricoIndividual(props){
                         <View style={ Styles.rec1 }/>
                         <View style={ Styles.rec2 }/>
                         <Text style={ Styles.title }>Histórico de</Text>
-                        <Text style={ Styles.title }>{getMonth(navigation.getParam('month', 0))}</Text>
+                        <Text style={ Styles.title }>{getMonth(navigation.getParam('month', 0))}/{navigation.getParam('year', 0)}</Text>
                     </View>
                     <Image source={icon1X.def_iconDengue} style={ Styles.logoWrapper } resizeMode='contain'/>
                 </View>

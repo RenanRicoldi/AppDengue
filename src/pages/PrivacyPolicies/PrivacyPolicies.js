@@ -1,6 +1,13 @@
 import React from 'react'
-import { View, Text, Image, StatusBar,ScrollView,TouchableOpacity } from 'react-native'
-import {icon1X,termo, colors} from '../../utils/consts'
+import { View,
+         Text, 
+         Image, 
+         StatusBar,
+         ScrollView,
+         TouchableOpacity,
+         PermissionsAndroid, 
+         Alert} from 'react-native'
+import {icon1X, termo, colors} from '../../utils/consts'
 
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
@@ -28,11 +35,38 @@ async function setPrivacyToAgreed(){
     }
 
 }
+
+async function requestLocation( grantPermission ) {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Localização',
+          message:
+            'Permitir acesso a localização do seu celular',
+          buttonNegative: 'Negar',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return new Promise(resolve => resolve(true))
+      } else {
+        Alert.alert('Acesso negado', 'Você precisa liberar o acesso a localização para utilizar o app')
+        return new Promise(resolve => resolve(false))
+      }
+    } catch (err) {
+      console.warn(err);
+      Alert.alert('Algo deu errado', 'Tente novamente')
+    }
+  }
+
 class Privacy extends React.Component{
 
     state = {
         appSituation: appSituation.LOADING_DATA
     }
+
+    
 
     componentDidMount(){
 
@@ -62,7 +96,6 @@ class Privacy extends React.Component{
         }
     }
 
-
     render(){
 
         if(this.state.appSituation == appSituation.LOADING_DATA){
@@ -89,9 +122,13 @@ class Privacy extends React.Component{
                             </View>
                         </View>
                         <TouchableOpacity onPress={ () => {
-                                                    setPrivacyToAgreed()
-                                                    this.props.navigation.navigate('Login', this.props.navigation.navigate)
-                                                    }} style={Styles.button}>
+                                                    requestLocation().then((granted) => {
+                                                        if(granted){
+                                                            setPrivacyToAgreed()
+                                                            this.props.navigation.navigate('Login', this.props.navigation.navigate)
+                                                        }
+                                                    })}}
+                                          style={Styles.button}>
                                 <Text style={Styles.buttonText}>concordo</Text>
                         </TouchableOpacity>
                         

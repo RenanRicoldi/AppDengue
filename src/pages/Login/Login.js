@@ -25,8 +25,6 @@ const def_pageStatus = {
 
 function button(title, action){
 
-   // console.log(action)
-
     return(
         <TouchableOpacity onPress={() => action()} activeOpacity={0.8} style={ Styles.btnContainer }>
             <Text style={ Styles.btnText }>{title}</Text>

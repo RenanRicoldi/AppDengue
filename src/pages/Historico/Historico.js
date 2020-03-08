@@ -4,18 +4,25 @@ import {View,
         TouchableOpacity,
         ScrollView,
         Image,
-        Alert} from 'react-native'
+        Alert,
+        Picker,
+        ActivityIndicator} from 'react-native'
 
 import Styles from './Styles'
 import { icon1X, colors } from '../../utils/consts'
 import AsyncStorage from '@react-native-community/async-storage'
 
+import Modal from 'react-native-modal'
 
 import axios from 'axios'
 
 function Historico(props){
 
     const [tokenID, setToken] = useState('')
+
+    const [selectedYear, changeYear] = useState(2020)
+
+    const [isLoading, changeLoadingStatus] = useState(false)
 
     const navigate = props.navigation.navigate
 
@@ -40,10 +47,11 @@ function Historico(props){
 
     const fetchData = (monthValue) => {
 
+        changeLoadingStatus(true)
 
         const finalData = {
             month: monthValue,
-            year: 2019
+            year: selectedYear
         }
 
         console.log(finalData)
@@ -58,10 +66,12 @@ function Historico(props){
         }).then((response) => {
             
             console.log(response.data, 'response')
-            navigate('HistoricoIndividual', {data:response.data, month:monthValue})
+            changeLoadingStatus(false)
+            navigate('HistoricoIndividual', {data:response.data, month:monthValue, year:selectedYear})
 
         }).catch(error => {
             console.log(error, 'errorMessage')
+            changeLoadingStatus(false)
             Alert.alert('Não foi possível baixar o seu histórico',
                         'Verifique sua conexão de internet e tente novamente')
         })
@@ -70,6 +80,11 @@ function Historico(props){
 
     return(
         <View>
+
+            <Modal isVisible={isLoading}>
+                <ActivityIndicator color={colors.def_yellow} size='large'/>
+            </Modal>
+
             <View style={ Styles.headerWrapper }>
                 <View>
                     <View style={ Styles.rec1 }/>
@@ -82,6 +97,16 @@ function Historico(props){
 
             <View style={ Styles.scrollView }>
                 <ScrollView>
+
+                <Picker
+                    selectedValue={selectedYear}
+                    mode="dropdown"
+                    onValueChange={(value) => changeYear(value)}
+                    style={Styles.button}>
+                    <Picker.Item style={ Styles.btnText } label="2020" value="2020" />
+                    <Picker.Item label="2019" value="2019" />
+                </Picker>
+
                 <TouchableOpacity style={Styles.button} onPress={() => fetchData(1)}>
                     <Text style={ Styles.btnText }>janeiro</Text>
                 </TouchableOpacity>
